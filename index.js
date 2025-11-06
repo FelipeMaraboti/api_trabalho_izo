@@ -2,6 +2,8 @@ const express = require('express');
 const pool = require('./db')
 const app = express();
 
+const PORT = process.env.PORT;
+
 app.use(express.json());
 
 pool.query("SELECT NOW()", (err , res) => {
