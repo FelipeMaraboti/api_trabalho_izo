@@ -10,7 +10,7 @@ pool.query("SELECT NOW()", (err , res) => {
   try {
     console.log("Banco conectado:", result.rows);
   } catch (error) {
-    console.error("Erro ao conectar ao banco:", err);
+    console.error("Erro ao conectar ao banco:", err.message);
   }
 })
 
