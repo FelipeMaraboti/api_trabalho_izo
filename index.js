@@ -6,12 +6,12 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 
-pool.query("SELECT NOW()", (err , res) => {
-  try {
-    console.log("Banco conectado:", result.rows);
-  } catch (error) {
-    console.error("Erro ao conectar ao banco:", err.message);
-  }
+pool.query("SELECT NOW()", (error , res) => {
+  if (error) {
+ console.error("Erro ao conectar ao banco:", err);
+ } else {
+ console.log("Banco conectado:", result.rows);
+ }
 })
 
 const taskRoutes = require('./routes/tasks')
