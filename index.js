@@ -2,10 +2,6 @@ const express = require('express');
 const pool = require('./db')
 const app = express();
 
-const dotenv = require('dotenv');
-dotenv.config({ path: ".env"})
-const PORT = process.env.PORT;
-
 app.use(express.json());
 
 pool.query("SELECT NOW()", (err , res) => {
