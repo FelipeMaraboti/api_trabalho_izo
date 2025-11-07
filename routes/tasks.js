@@ -1,51 +1,65 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const pool = require('../db')
 
-const tasks = [
-  {
-    id: 1,
-    title: "Fazer trabalho de redes",
-    completed: false,
-  },
-  {
-    id: 2,
-    title: "Limpar a varanda",
-    completed: true,
-  },
-  {
-    id: 3,
-    title: "Levar o cachorro para passear",
-    completed: false,
+router.get('/', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM tasks');
+    return res.json(result.rows)
+  } catch (err) {
+    return res.status(500).json({ error: 'Erro ao buscar tarefas' })
   }
-]
-
-router.get('/', (req , res) => {
-  res.json(tasks)
 })
 
-router.get('/:id', (req , res) => {
-  const { id } = req.params
-  res.json(tasks[id - 1])
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const result = await pool.query('SELECT * FROM tasks WHERE id = $1', [id])
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Tarefa não encontrada' })
+    }
+    return res.status(200).json(result.rows)
+  } catch (err) {
+    return res.status(500).json({ error: "Erro ao buscar tarefa" })
+  }
 })
 
-router.post("/", (req , res) => {
-  const newTask = req.body
-  res.status(201).json({
-    NovaTask: newTask 
-  })
+router.post("/", async (req, res) => {
+  try {
+    const { title, completed } = req.body;
+    const result = await pool.query('INSERT INTO tasks (title , completed) VALUES ($1 ,$2)', [title, completed ?? false])
+    res.status(200).json(result.rows)
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao criar tarefa" })
+  }
 })
 
-router.put("/:id", (req , res) => {
-  const { id } = req.params
-  const updatedTask = req.body
-  res.json({
-    data: updatedTask
-  })
-})
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, completed } = req.body;
+    const result = await pool.query('UPDATE tasks SET title = $1, completed = $2 WHERE id = $3', [title, completed, id]);
+    if (result.rows.length === 0)
+      return res.status(404).json({ error: 'Tarefa não encontrada' });
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao atualizar tarefa' });
+  }
+});
 
-router.delete("/:id",(req , res) => {
-  const { id } = req.params
-  res.json({message: `Task ${id} deletada`})
-})
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('DELETE FROM tasks WHERE id = $1 RETURNING *', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Tarefa não encontrada' });
+    }
+    res.json({ message: `Tarefa ${id} deletada com sucesso!` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao deletar tarefa' });
+  }
+});
 
 module.exports = router

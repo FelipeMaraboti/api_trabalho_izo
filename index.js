@@ -1,27 +1,16 @@
 const express = require('express');
-const pool = require('./db')
-const app = express();
+const taskRoutes = require('./routes/tasks');
 
-const PORT = process.env.PORT;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use('/tasks', taskRoutes);
 
-pool.query("SELECT NOW()", (err , res) => {
-  if (err) {
- console.error("Erro ao conectar ao banco:", err);
- } else {
- console.log("Banco conectado:", res.rows);
- }
-})
-
-const taskRoutes = require('./routes/tasks')
-
-app.use('/tasks', taskRoutes)
-
-app.get("/" ,(req, res) => {
-  res.json({ "message": `API rodando na porta: ${PORT}` });
-})
+app.get('/', (req, res) => {
+  res.json({ message: `Servidor rodando na porta ${PORT}` });
+});
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta: ${PORT}`);
-})
+  console.log(`🚀 Servidor rodando na porta: ${PORT}`);
+});
