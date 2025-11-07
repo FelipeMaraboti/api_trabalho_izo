@@ -27,8 +27,8 @@ router.get('/:id', async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const { title, completed } = req.body;
-    const result = await pool.query('INSERT INTO tasks (title , completed) VALUES ($1 ,$2)', [title, completed ?? false])
-    res.status(200).json(result.rows)
+    pool.query('INSERT INTO tasks (title , completed) VALUES ($1 ,$2)', [title, completed ?? false])
+    res.status(200).json({ success: "Tarefa criada com sucesso"})
   } catch (err) {
     res.status(500).json({ error: "Erro ao criar tarefa" })
   }
