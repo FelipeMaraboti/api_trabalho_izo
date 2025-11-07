@@ -6,7 +6,7 @@ A aplicação permite realizar operações completas (CRUD) em uma tabela de tar
 
 ---
 
-## 👨‍🏫 Desenvolvido por
+## 👨‍🏫 Integrantes do Grupo
 
 - **Felipe Sabino**  
 - **Enock Júnior**
