@@ -5,7 +5,7 @@ const pool = require('../db')
 router.get('/', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM tasks');
-    return res.json(result.rows[0])
+    return res.json(result.rows)
   } catch (err) {
     return res.status(500).json({ error: 'Erro ao buscar tarefas' })
   }
@@ -18,7 +18,7 @@ router.get('/:id', async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Tarefa não encontrada' })
     }
-    return res.status(200).json(result.rows[0])
+    return res.status(200).json(result.rows)
   } catch (err) {
     return res.status(500).json({ error: "Erro ao buscar tarefa" })
   }
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   try {
     const { title, completed } = req.body;
     const result = await pool.query('INSERT INTO tasks (title , completed) VALUES ($1 ,$2)', [title, completed ?? false])
-    res.status(200).json(result.rows[0])
+    res.status(200).json(result.rows)
   } catch (err) {
     res.status(500).json({ error: "Erro ao criar tarefa" })
   }
@@ -41,7 +41,7 @@ router.put('/:id', async (req, res) => {
     const result = await pool.query('UPDATE tasks SET title = $1, completed = $2 WHERE id = $3', [title, completed, id]);
     if (result.rows.length === 0)
       return res.status(404).json({ error: 'Tarefa não encontrada' });
-    res.json(result.rows[0]);
+    res.json(result.rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Erro ao atualizar tarefa' });
