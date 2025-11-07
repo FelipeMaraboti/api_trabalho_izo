@@ -1,6 +1,6 @@
 # 🧠 API de Gerenciamento de Tarefas — Node.js + PostgreSQL
 
-Este projeto foi desenvolvido como parte da disciplina de **Desenvolvimento de Aplicações Web**, com o objetivo de demonstrar a criação de uma **API RESTful** utilizando **Node.js**, **Express** e **PostgreSQL**.
+Este projeto foi desenvolvido como parte da disciplina de **Modelos e Linguagens de Programação III**, com o objetivo de demonstrar a criação de uma **API RESTful** utilizando **Node.js**, **Express** e **PostgreSQL**.
 
 A aplicação permite realizar operações completas (CRUD) em uma tabela de tarefas — como criar, listar, atualizar e excluir registros — utilizando o banco de dados hospedado na plataforma **Render**.
 
@@ -172,7 +172,7 @@ Este projeto tem como finalidade:
 
 ## 🎓 Informações Acadêmicas
 
-- **Disciplina:** Desenvolvimento de Aplicações Web
+- **Disciplina:** Modelos e Linguagens de Programação III
 - **Semestre:** 6º
 - **Ano:** 2025  
 - **Instituição:** Multivix – Cachoeiro de Itapemirim  
